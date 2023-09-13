@@ -6,11 +6,19 @@ let currentSum = 0;
 let score = 0;
 let level = 1;
 let placedBlock = null;
-//let backgroundMusic;
 let instructionsScreen;
 
 let blockPlacementSound;
 let levelCompletionSound;
+
+let startButton;
+let levelSelection;
+let level1Button;
+let level2Button;
+let selectedLevel = null;
+let exitButton;
+
+
 
 // Load sound files
 /*function preload() {
@@ -29,26 +37,77 @@ function setup() {
   createCanvas(400, 550);
   background(255, 230, 230);
   newLevel();
+  levelSelection = select('#level-selection');
+  level1Button = select('#level1-btn');
+  level2Button = select('#level2-btn');
   instructionsScreen = select('#instructions-screen');
-    instructionsScreen.mousePressed(startGame);
+  startButton = select('#start-btn');
+  setupLevelSelection();
+  setupInstructionsScreen();
+   /* instructionsScreen = select('#instructions-screen');
+    instructionsScreen.mousePressed(startGame);*/
+    // Hide the canvas initially and show level selection options
+   
+
  // backgroundMusic = loadSound("Sound/awake10_megaWall.mp3");
   // backgroundMusic.play();
   // Start playing background music if it's loaded
  /* if (backgroundMusic.isLoaded()) {
     backgroundMusic.loop();
   }*/
-  
+   // Initialize the exit button element
+  exitButton = select('#exit-button');
+  exitButton.mousePressed(exitLevel);
   }
-function startGame() {
+  
+  function exitLevel() {
+  levelSelection.show();
+   newLevel();
+    
+}
+  function setupLevelSelection() {
+  level1Button.mousePressed(() => {
+    levelSelection.hide();
+    instructionsScreen.show();
+    targetNumber = Math.floor(random(11, 40)); // Set target number for level 1
+    // Other level-specific properties/settings
+  });
+
+  level2Button.mousePressed(() => {
+    levelSelection.hide();
+    instructionsScreen.show();
+    targetNumber = Math.floor(random(41, 70)); // Set target number for level 2
+    // Other level-specific properties/settings
+  });
+}
+
+function setupInstructionsScreen() {
+  startButton.mousePressed(() => {
+    instructionsScreen.hide();
+   // startGame();
+  });
+}
+  
+/*function startGame() {
     instructionsScreen.hide();
     // Initialize game components and logic here
-}
+}*/
 function draw() {
-  background(220);
+    background(220);
+  // Display game components based on the selected level
+     if (selectedLevel === 1) {
+      // Execute level 1 logic
+      setupLevelSelection(); // Call a function that contains level 1 logic
+      
+    } else if (selectedLevel === 2) {
+      // Execute level 2 logic
+      setupLevelSelection(); // Call a function that contains level 2 logic
+        }
+  
   displayBlocks();
   displayGrid();
   displayUI();
- 
+
   // Check if background music is playing, and if not, play it
  /* if (!backgroundMusic.isPlaying() && backgroundMusic.isLoaded()) {
     backgroundMusic.loop();
@@ -144,8 +203,9 @@ function displayUI() {
   text(`Target: ${targetNumber}`, 20, 55);
  text(`Remaining: ${targetNumber-currentSum}`, width - 250, 55);
   text(`Score: ${score}`, width-100, 55);
-  text(`A D T R I S`, width-250,510);
-}
+   text(`A D T R I S : ${selectedLevel}`, width-250,510); 
+ }
+  
 
 function displayBlocks() {
   for (let block of blocks) {
@@ -177,8 +237,9 @@ function newLevel() {
   // Generate a new level logic
    blocks = [];
   currentSum = 0;
-  targetNumber = Math.floor(random(11, 40)); // Generate a new random target number (1-50)
+ // targetNumber = Math.floor(random(11, 40)); // Generate a new random target number (1-50)
   generateBlocks(targetNumber);
+  
 }
 
 function generateBlocks(target) {
