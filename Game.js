@@ -1,7 +1,4 @@
 // Game.js
-//import Block from './Block.js';
-
-
 
 let blocks = [];
 let targetNumber = 0;
@@ -100,14 +97,14 @@ function mouseReleased() {
   if (placedBlock !== null) {
     if (currentSum + placedBlock.value <= targetNumber) {
       // Calculate the grid row index based on the block's y position
-      let gridY = Math.floor((placedBlock.y - 100) / 30);
+     
+      let gridY = Math.floor((placedBlock.y - 65) / 30);
 
       // Check if the block is placed within the boundaries of the grid
-      if (
-        gridY >= 0 && gridY <= 12 &&
-        mouseX >= 10 && mouseX <= 370 &&
-        mouseY >= 100 && mouseY <= 490
-      ) {
+      if (gridY >= 0 && gridY <= 12 && 
+        mouseX >= 15 && mouseX <= 350 &&
+        mouseY >= 65 && mouseY <= 485)
+       {
         // Update sum only if the block is placed within the grid
         placedBlock.placedOnGrid = true;
        // blockPlacementSound.play(); // Play sound effect
@@ -119,9 +116,7 @@ function mouseReleased() {
         alert("Place block on grid!");
       }
     } else {
-      //let exceededAmount = (currentSum + placedBlockCopy.value) - targetNumber;
-      //alert("Exceeded target by ${exceededAmount}!");
-     alert("Exceeded target!"); // Alert the player if the sum exceeds the target
+      alert("Target exceeded, Try again!"); // Alert the player if the sum exceeds the target
       newLevel(); // Start a new level after the alert
     }
   }
@@ -133,7 +128,7 @@ function checkWinCondition() {
     score++;
     level++;
     // levelCompletionSound.play(); // Play sound effect
-    alert("Good job!"); // Feedback message
+    alert("Congrats, Target Achieved!"); // Feedback message
     newLevel();
   } else if (currentSum > targetNumber) {
    // showCustomAlert(); // Display the alert when target sum is exceeded
@@ -146,9 +141,10 @@ function displayUI() {
   textSize(16);
   textAlign(LEFT, CENTER);
   fill(0);
-  text(`Target: ${targetNumber}`, 10, 60);
- // text(`Sum: ${currentSum}`, width - 100, 60);
-  text(`Score: ${score}`, width-100, 60);
+  text(`Target: ${targetNumber}`, 20, 55);
+ text(`Remaining: ${targetNumber-currentSum}`, width - 250, 55);
+  text(`Score: ${score}`, width-100, 55);
+  text(`A D T R I S`, width-250,510);
 }
 
 function displayBlocks() {
@@ -161,8 +157,8 @@ function displayBlocks() {
 function displayGrid() {
   // Display grid logic
    let cellSize = 30;
-  let gridWidth = 360; // Total width of the grid
-  let gridHeight = 400; // Total height of the grid
+  let gridWidth = 360; // Total width of the grid (30*12)
+  let gridHeight = 420; // Total height of the grid (30*14)
 
   // Calculate the starting positions to center-align the grid
   let startX = (width - gridWidth) / 2;
@@ -181,7 +177,7 @@ function newLevel() {
   // Generate a new level logic
    blocks = [];
   currentSum = 0;
-  targetNumber = Math.floor(random(1, 51)); // Generate a new random target number (1-50)
+  targetNumber = Math.floor(random(11, 40)); // Generate a new random target number (1-50)
   generateBlocks(targetNumber);
 }
 
@@ -205,27 +201,3 @@ function generateBlocks(target) {
     startX += blockWidth + 5;
   }
 }
-
-/* Example JavaScript for Sound */
-// Load sound files
-/*let backgroundMusic = new Audio('Sound/awake10_megaWall.mp3');
-//let blockPlacedSound = new Audio('block_placed.mp3');
-//let levelWinSound = new Audio('level_win.mp3');
-
-// Play sound effects
-blockPlacedSound.play();
-levelWinSound.play();
-
-// Toggle background music
-document.getElementById('music-toggle').addEventListener('click', () => {
-  if (backgroundMusic.paused) {
-    backgroundMusic.play();
-  } else {
-    backgroundMusic.pause();
-  }
-});*/
-
-
-
-// Export the necessary functions for p5.js
-//export { setup, draw, mousePressed, mouseDragged, mouseReleased };
